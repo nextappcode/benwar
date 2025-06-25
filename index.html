@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BenWar - Juego de Mecanografía</title>
+  </head>
+  <body>
+    <div id="app">
+      <div id="game-container">
+        <div id="game-header">
+          <div id="score">Puntuación: <span id="score-value">0</span></div>
+          <div id="lives">Vidas: <span id="lives-value">3</span></div>
+          <div id="level">Nivel: <span id="level-value">1</span></div>
+        </div>
+        
+        <div id="level-up-transition" class="hidden"></div>
+        
+        <div id="game-area">
+          <div id="stars-background"></div>
+          <div id="player-ship"></div>
+          <div id="words-container"></div>
+          <div id="explosions-container"></div>
+          <div id="input-area">
+            <input type="text" id="word-input" placeholder="Escribe las palabras aquí..." autocomplete="off" autofocus />
+          </div>
+        </div>
+        
+        <div id="game-over" class="hidden">
+          <h2>¡Fin del juego! ¡Buen trabajo! 🚀</h2>
+          <p>Puntuación Final: <span id="final-score">0</span></p>
+          <p>Nivel Alcanzado: <span id="final-level">1</span></p>
+          <p>Teclas equivocadas: <span id="final-wrong-keys">0</span></p>
+          <p>Puntos descontados por errores: <span id="final-wrong-points">0</span></p>
+          <button id="restart-btn">Jugar de Nuevo</button>
+        </div>
+
+        <div id="pause-menu" class="hidden">
+          <h2>Juego Pausado</h2>
+          <button id="continue-btn">Continuar</button>
+          <button id="restart-game-btn">Reiniciar</button>
+          <button id="exit-game-btn">Salir</button>
+        </div>
+        
+        <div id="start-screen">
+          <div class="watermarks">
+            <img src="enemy1.PNG" class="wm wm1" alt="enemigo1" />
+            <img src="enemy2.PNG" class="wm wm2" alt="enemigo2" />
+            <img src="enemy3.PNG" class="wm wm3" alt="enemigo3" />
+            <img src="avion.png" class="wm wm4" alt="avion" />
+          </div>
+          <img src="logo.png" alt="Logo BenWar" id="game-logo" style="width: 250px; display: block; margin: 0 auto 24px auto; filter: drop-shadow(0 0 18px #00ffff) drop-shadow(0 0 32px #00ffff);">
+          <p class="start-desc">Destruye las naves enemigas escribiendo las palabras</p>
+          <div id="instructions">
+            <h3>¿Cómo jugar?</h3>
+            <ul>
+              <li>Las naves bajan desde arriba</li>
+              <li>Escribe la palabra para destruir</li>
+              <li>No dejes que lleguen a tu nave</li>
+              <li>Sube de nivel y aumenta la velocidad</li>
+            </ul>
+          </div>
+          <input type="text" id="player-name" name="player-name" placeholder="Introduce tu nombre" required autofocus maxlength="20" autocomplete="off" style="margin-bottom: 20px;" />
+          <button id="start-btn">Comenzar Batalla</button>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
