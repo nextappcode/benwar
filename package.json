@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "http-server -c-1",
-    "build": "echo 'No build needed'"
+    "build": "true"
   },
   "devDependencies": {
     "http-server": "^14.1.1"
