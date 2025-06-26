@@ -1,4 +1,5 @@
 import { WORDS_ES } from '../words/es.js';
+import { WORDS_EN } from '../words/en.js';
 
 export class Game {
   constructor() {
@@ -9,14 +10,16 @@ export class Game {
     this.words = []
     this.currentInput = ''
     this.gameSpeed = 1
-    this.spawnRate = 4000 // controla cada cuánto aparece una palabra nueva
-    this.wordSpeed = 20 // controla la velocidad a la que caen las palabras
+    this.spawnRate = 5000 // controla cada cuánto aparece una palabra nueva
+    this.wordSpeed = 30 // controla la velocidad a la que caen las palabras
     this.currentTargetWord = null // Palabra actualmente siendo escrita
     this.isPaused = false
     this.wrongKeyCount = 0
     
     // Listas de palabras por dificultad
     this.wordLists = WORDS_ES;
+    this.wordListsEN = WORDS_EN;
+    this.useEnglishNext = false;
     
     this.gameLoop = null
     this.spawnTimer = null
@@ -290,6 +293,19 @@ export class Game {
         this.audioContext.resume()
       }
     }, { once: true })
+
+    // Permitir Enter para reiniciar desde el menú de game over
+    document.addEventListener('keydown', (e) => {
+      const gameOverMenu = document.getElementById('game-over');
+      if (
+        gameOverMenu &&
+        !gameOverMenu.classList.contains('hidden') &&
+        e.key === 'Enter'
+      ) {
+        e.preventDefault();
+        restartBtn.click();
+      }
+    });
   }
   
   showStartScreen() {
@@ -381,6 +397,9 @@ export class Game {
   }
   
   spawnRandomWord() {
+    // Alternar entre español e inglés
+    this.useEnglishNext = !this.useEnglishNext;
+    const wordLists = this.useEnglishNext ? this.wordListsEN : this.wordLists;
     // 70 niveles: ajusta la longitud de palabra progresivamente
     const minLen = 3;
     const maxLen = 14; // según WORDS_ES
@@ -391,10 +410,10 @@ export class Game {
     if (wordLength > minLen) possibleLengths.push(wordLength - 1);
     if (wordLength < maxLen) possibleLengths.push(wordLength + 1);
     // Filtra solo longitudes disponibles
-    possibleLengths = possibleLengths.filter(l => this.wordLists[l] && this.wordLists[l].length > 0);
-    if (possibleLengths.length === 0) possibleLengths = Object.keys(this.wordLists);
+    possibleLengths = possibleLengths.filter(l => wordLists[l] && wordLists[l].length > 0);
+    if (possibleLengths.length === 0) possibleLengths = Object.keys(wordLists);
     const chosenLength = possibleLengths[Math.floor(Math.random() * possibleLengths.length)];
-    const wordsOfLength = this.wordLists[chosenLength];
+    const wordsOfLength = wordLists[chosenLength];
     let filteredWords = wordsOfLength.filter(w => !this.removedWords.has(w.toLowerCase()));
     if (filteredWords.length === 0) filteredWords = wordsOfLength;
     const randomWord = filteredWords[Math.floor(Math.random() * filteredWords.length)];
@@ -421,13 +440,15 @@ export class Game {
   createWordElement(text) {
     const enemyImages = ['enemy1.PNG', 'enemy2.PNG', 'enemy3.PNG'];
     const randomImg = enemyImages[Math.floor(Math.random() * enemyImages.length)];
+    const isMultiWord = text.includes(' ');
+    const wordClass = isMultiWord ? 'multi-word' : 'single-word';
     const wordElement = document.createElement('div')
     wordElement.className = 'enemy-ship'
     wordElement.innerHTML = `
       <div class="ship-sprite" style="background: none; width: 60px; height: 60px; margin: 0 auto 5px;">
         <img src="${randomImg}" alt="enemigo" class="enemy-img" style="width: 100%; height: 100%; object-fit: contain; display: block; filter: drop-shadow(0 0 10px #ff4444) drop-shadow(0 0 20px #ff8800);" />
       </div>
-      <div class="word-text">
+      <div class="word-text ${wordClass}">
         <span class="typed-letters"></span><span class="remaining-letters">${text}</span>
       </div>
     `
@@ -777,6 +798,43 @@ export class Game {
       this.restartGame();
     };
     if (exitBtn) exitBtn.onclick = () => window.location.reload();
+
+    // --- Navegación por teclado en el menú de pausa ---
+    const pauseButtons = [continueBtn, restartBtn, exitBtn];
+    let pauseBtnIndex = 0;
+    function focusPauseBtn(idx) {
+      pauseBtnIndex = idx;
+      pauseButtons.forEach((btn, i) => {
+        if (btn) {
+          if (i === idx) {
+            btn.focus();
+          }
+        }
+      });
+    }
+    // Al mostrar el menú de pausa, enfocar el primer botón
+    const observer = new MutationObserver(() => {
+      if (!pauseMenu.classList.contains('hidden')) {
+        focusPauseBtn(0);
+      }
+    });
+    observer.observe(pauseMenu, { attributes: true, attributeFilter: ['class'] });
+
+    // Navegación con flechas y enter
+    document.addEventListener('keydown', (e) => {
+      if (!pauseMenu.classList.contains('hidden')) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          focusPauseBtn((pauseBtnIndex + 1) % pauseButtons.length);
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          focusPauseBtn((pauseBtnIndex - 1 + pauseButtons.length) % pauseButtons.length);
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          pauseButtons[pauseBtnIndex].click();
+        }
+      }
+    });
   }
   
   togglePauseMenu() {
@@ -788,6 +846,9 @@ export class Game {
     } else {
       pauseMenu.classList.add('hidden');
       this.resumeGameLoops();
+      // Foco automático al input de palabras al continuar
+      const wordInput = document.getElementById('word-input');
+      if (wordInput) wordInput.focus();
     }
   }
   

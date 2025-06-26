@@ -198,9 +198,24 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.3);
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
   font-family: 'Courier New', monospace;
-  word-break: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   max-width: 90vw;
   min-width: 0;
+}
+
+.word-text.single-word {
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: unset;
+}
+
+.word-text.multi-word {
+  white-space: normal;
+  word-break: break-word;
+  overflow: visible;
+  text-overflow: unset;
 }
 
 /* Letras escritas y restantes */
@@ -351,11 +366,12 @@ body {
 
 .start-desc {
   color: #00ffff;
-  font-size: 1.45em;
+  font-size: 1em;
   font-weight: 600;
   margin-bottom: 18px;
   letter-spacing: 1px;
   text-shadow: 0 0 10px #00ffff, 0 0 2px #fff;
+  opacity: 0.02;
 }
 
 #instructions {
@@ -797,7 +813,7 @@ button:active {
   transition: opacity 0.4s;
 }
 
-.wm1, .wm2, .wm3 {
+.wm1, .wm2, .wm3, .wm4 {
   width: 90px !important;
   height: 60px !important;
   left: auto;
@@ -806,17 +822,64 @@ button:active {
   bottom: auto;
   animation: watermarkFly 5s ease-in-out infinite alternate, watermarkShoot 1.8s steps(1, end) infinite;
   object-fit: contain;
+  opacity: 0.23;
 }
 
-.wm1 { left: 8%; top: 12%; --wm-rot: -12deg; }
-.wm2 { left: 38%; top: 18%; --wm-rot: 8deg; }
-.wm3 { left: 68%; top: 10%; --wm-rot: 4deg; }
+.wm1 {
+  left: 8%; top: 12%; --wm-rot: -12deg;
+  animation: wm1Fly 12s linear infinite;
+  animation-delay: 0s;
+}
+.wm2 {
+  left: 38%; top: 18%; --wm-rot: 8deg;
+  animation: wm2Fly 14s linear infinite;
+  animation-delay: 1.2s;
+}
+.wm3 {
+  left: 68%; top: 10%; --wm-rot: 4deg;
+  animation: wm3Fly 10s linear infinite;
+  animation-delay: 0.7s;
+}
 
 .wm4 {
   right: 8%;
   bottom: 10%;
   width: 85px;
   transform: rotate(-10deg);
+  animation: watermarkFly 8s ease-in-out infinite alternate;
+  animation-delay: 2s;
+}
+
+@keyframes watermarkFly {
+  0%   { transform: translateY(0) rotate(var(--wm-rot, 0deg)); }
+  20%  { transform: translateY(-10px) rotate(calc(var(--wm-rot, 0deg) + 2deg)); }
+  40%  { transform: translateY(8px) rotate(calc(var(--wm-rot, 0deg) - 2deg)); }
+  60%  { transform: translateY(-6px) rotate(calc(var(--wm-rot, 0deg) + 1deg)); }
+  80%  { transform: translateY(10px) rotate(calc(var(--wm-rot, 0deg) - 1deg)); }
+  100% { transform: translateY(0) rotate(var(--wm-rot, 0deg)); }
+}
+
+/* Animaciones personalizadas para cada marca de agua */
+@keyframes wm1Fly {
+  0%   { transform: translate(0, 0) rotate(var(--wm-rot, 0deg)); }
+  25%  { transform: translate(10vw, 10vh) rotate(calc(var(--wm-rot, 0deg) + 2deg)); }
+  50%  { transform: translate(30vw, -8vh) rotate(calc(var(--wm-rot, 0deg) + 4deg)); }
+  75%  { transform: translate(45vw, 18vh) rotate(calc(var(--wm-rot, 0deg) + 6deg)); }
+  100% { transform: translate(60vw, 20vh) rotate(calc(var(--wm-rot, 0deg) + 8deg)); }
+}
+@keyframes wm2Fly {
+  0%   { transform: translate(0, 0) rotate(var(--wm-rot, 0deg)); }
+  25%  { transform: translate(-10vw, -8vh) rotate(calc(var(--wm-rot, 0deg) - 2deg)); }
+  50%  { transform: translate(-25vw, 10vh) rotate(calc(var(--wm-rot, 0deg) - 5deg)); }
+  75%  { transform: translate(-40vw, -12vh) rotate(calc(var(--wm-rot, 0deg) - 8deg)); }
+  100% { transform: translate(-50vw, -18vh) rotate(calc(var(--wm-rot, 0deg) - 10deg)); }
+}
+@keyframes wm3Fly {
+  0%   { transform: translate(0, 0) rotate(var(--wm-rot, 0deg)); }
+  25%  { transform: translate(8vw, 10vh) rotate(calc(var(--wm-rot, 0deg) + 3deg)); }
+  50%  { transform: translate(18vw, 25vh) rotate(calc(var(--wm-rot, 0deg) + 7deg)); }
+  75%  { transform: translate(25vw, 30vh) rotate(calc(var(--wm-rot, 0deg) + 10deg)); }
+  100% { transform: translate(30vw, 35vh) rotate(calc(var(--wm-rot, 0deg) + 12deg)); }
 }
 
 .word-text.exploding {
