@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "http-server -c-1"
+    "start": "http-server -c-1",
+    "build": "echo 'No build needed'"
   }
 }
