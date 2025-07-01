@@ -664,7 +664,7 @@ export class Game {
   }
   
   findTargetWord(input) {
-    if (input.length === 0) return
+    if (input.length === 0) return;
     // Buscar la primera palabra que comience con la entrada
     const matchingWord = this.words.find(word => {
       let wordText = word.originalText.toLowerCase();
@@ -673,7 +673,8 @@ export class Game {
         wordText = removeAccents(wordText);
         userInput = removeAccents(userInput);
       }
-      return wordText.startsWith(userInput) && word.typedLength === 0;
+      // Solo buscar si el input no es vacío
+      return userInput.length > 0 && wordText.startsWith(userInput) && word.typedLength === 0;
     });
     if (matchingWord) {
       this.currentTargetWord = matchingWord
@@ -682,13 +683,14 @@ export class Game {
   }
   
   processTyping(input) {
+    if (!input || input.length === 0) return;
     let targetText = this.currentTargetWord.originalText.toLowerCase();
     let userInput = input;
     if (!this.requireAccents) {
       targetText = removeAccents(targetText);
       userInput = removeAccents(userInput);
     }
-    // Verificar si la entrada coincide con la palabra objetivo
+    // Verificar si la entrada coincide con el inicio de la palabra objetivo
     if (targetText.startsWith(userInput)) {
       this.updateWordDisplay(this.currentTargetWord, input.length)
       if (input.length > this.currentTargetWord.typedLength) {
@@ -699,7 +701,8 @@ export class Game {
         clickSound.volume = 1.0;
         clickSound.play();
       }
-      if (userInput === targetText) {
+      // Solo completar si la longitud y el contenido coinciden exactamente
+      if (userInput.length === targetText.length && userInput === targetText) {
         this.completeWord(this.currentTargetWord)
       }
     } else {
