@@ -53,6 +53,10 @@ function preloadWithProgress(imagePaths, soundPaths) {
   return Promise.all([...preloadImages, ...preloadSounds]);
 }
 
+function removeAccents(str) {
+  return str.normalize('NFD').replace(/[0-\u036f]/g, '');
+}
+
 export class Game {
   constructor() {
     this.score = 0
@@ -88,6 +92,8 @@ export class Game {
     this.errorSound = new Audio('sounds/typing_error.ogg');
     
     this.removedWords = new Set();
+    
+    this.requireAccents = false; // Cambia a true si quieres exigir tildes por defecto
     
     this.initAudio()
     this.createStarField()
@@ -306,6 +312,20 @@ export class Game {
     const restartBtn = document.getElementById('restart-btn')
     const wordInput = document.getElementById('word-input')
     const playerNameInput = document.getElementById('player-name')
+    const toggleAccentsBtn = document.getElementById('toggle-accents-btn');
+    if (toggleAccentsBtn) {
+      toggleAccentsBtn.addEventListener('click', () => {
+        this.requireAccents = !this.requireAccents;
+        toggleAccentsBtn.textContent = this.requireAccents ? 'Tildes: Obligatorio' : 'Tildes: Opcional';
+        // Opcional: feedback visual
+        toggleAccentsBtn.style.background = this.requireAccents ? '#ffaa00' : '#00ffff';
+        toggleAccentsBtn.style.color = this.requireAccents ? '#222' : '#222';
+      });
+      // Inicializa el texto del botón según el estado actual
+      toggleAccentsBtn.textContent = this.requireAccents ? 'Tildes: Obligatorio' : 'Tildes: Opcional';
+      toggleAccentsBtn.style.background = this.requireAccents ? '#ffaa00' : '#00ffff';
+      toggleAccentsBtn.style.color = '#222';
+    }
     
     startBtn.addEventListener('click', () => {
       const playerName = playerNameInput.value.trim()
@@ -645,12 +665,16 @@ export class Game {
   
   findTargetWord(input) {
     if (input.length === 0) return
-    
     // Buscar la primera palabra que comience con la entrada
-    const matchingWord = this.words.find(word => 
-      word.originalText.toLowerCase().startsWith(input) && word.typedLength === 0
-    )
-    
+    const matchingWord = this.words.find(word => {
+      let wordText = word.originalText.toLowerCase();
+      let userInput = input;
+      if (!this.requireAccents) {
+        wordText = removeAccents(wordText);
+        userInput = removeAccents(userInput);
+      }
+      return wordText.startsWith(userInput) && word.typedLength === 0;
+    });
     if (matchingWord) {
       this.currentTargetWord = matchingWord
       this.currentTargetWord.element.classList.add('targeted')
@@ -658,30 +682,27 @@ export class Game {
   }
   
   processTyping(input) {
-    const targetText = this.currentTargetWord.originalText.toLowerCase()
-    
+    let targetText = this.currentTargetWord.originalText.toLowerCase();
+    let userInput = input;
+    if (!this.requireAccents) {
+      targetText = removeAccents(targetText);
+      userInput = removeAccents(userInput);
+    }
     // Verificar si la entrada coincide con la palabra objetivo
-    if (targetText.startsWith(input)) {
-      // Actualizar la visualización de la palabra
+    if (targetText.startsWith(userInput)) {
       this.updateWordDisplay(this.currentTargetWord, input.length)
-      
-      // Reproducir sonido de tecleo si se añadió una letra
       if (input.length > this.currentTargetWord.typedLength) {
         this.sounds.type()
-        // --- Efecto visual de disparo (bolita) ---
         this.createPlayerShotToLetter(this.currentTargetWord, input.length - 1);
         this.currentTargetWord.typedLength = input.length
         const clickSound = new Audio('sounds/type.ogg');
         clickSound.volume = 1.0;
         clickSound.play();
       }
-      
-      // Si se completó la palabra
-      if (input === targetText) {
+      if (userInput === targetText) {
         this.completeWord(this.currentTargetWord)
       }
     } else {
-      // La entrada no coincide, resetear
       const errorSound = new Audio('sounds/typing_error.ogg');
       errorSound.volume = 1.0;
       errorSound.play();
