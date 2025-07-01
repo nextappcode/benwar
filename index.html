@@ -2,10 +2,10 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="public/logo.png" />
+    <link rel="icon" type="image/png" href="/images/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BenWar - Juego de Mecanografía</title>
-    <link rel="stylesheet" href="src/style.css" />
+    <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
     <div id="app">
@@ -17,10 +17,13 @@
         </div>
         
         <div id="level-up-transition" class="hidden"></div>
+        <div id="life-bonus-notice" class="hidden"></div>
         
         <div id="game-area">
           <div id="stars-background"></div>
-          <div id="player-ship"></div>
+          <div id="player-ship">
+            <div class="smoke-effect"></div>
+          </div>
           <div id="words-container"></div>
           <div id="explosions-container"></div>
           <div id="input-area">
@@ -46,12 +49,12 @@
         
         <div id="start-screen">
           <div class="watermarks">
-            <img src="public/enemy1.PNG" class="wm wm1" alt="enemigo1" />
-            <img src="public/enemy2.PNG" class="wm wm2" alt="enemigo2" />
-            <img src="public/enemy3.PNG" class="wm wm3" alt="enemigo3" />
-            <img src="public/avion.png" class="wm wm4" alt="avion" />
+            <img src="/images/avion_enemy1.PNG" class="wm wm1" alt="avion1" />
+            <img src="/images/helicoptero_enemy3.PNG" class="wm wm2" alt="elicoptero1" />
+            <img src="/images/tanque_enemy2.PNG" class="wm wm3" alt="tanque1" />
+            <img src="/images/avion.png" class="wm wm4" alt="avion" />
           </div>
-          <img src="public/logo.png" alt="Logo BenWar" id="game-logo" style="width: 250px; display: block; margin: 0 auto 24px auto; filter: drop-shadow(0 0 18px #00ffff) drop-shadow(0 0 32px #00ffff);">
+          <img src="/images/logo.png" alt="Logo BenWar" id="game-logo" style="width: 250px; display: block; margin: 0 auto 24px auto; filter: drop-shadow(0 0 18px #00ffff) drop-shadow(0 0 32px #00ffff);">
           <p class="start-desc">By NextAppCode · Enhanced with AI</p>
           <div id="instructions">
             <h3>¿Cómo jugar?</h3>
@@ -68,13 +71,13 @@
       </div>
     </div>
     <!-- Botón de información/créditos -->
-    <button id="info-btn" title="Créditos" style="position: fixed; bottom: 18px; right: 18px; z-index: 100; background: rgba(0,0,0,0.55); color: #00ffff; border-radius: 50%; width: 48px; height: 48px; aspect-ratio: 1/1; font-size: 1.5em; font-weight: bold; border: 2px solid #00ffff; box-shadow: 0 0 12px #00ffff55; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">?</button>
+    <button id="info-btn" title="Créditos" style="position: fixed; bottom: 18px; right: 18px; z-index: 100; background: rgba(0,0,0,0.55); color: #00ffff; border-radius: 50%; width: 48px; height: 48px; aspect-ratio: 1/1; font-size: 1.5em; font-weight: bold; border: 2px solid #00ffff; box-shadow: 0 0 12px #00ffff55; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">(?)</button>
     <!-- Modal de créditos (inicialmente oculto) -->
     <div id="credits-modal" style="display:none; position: fixed; bottom: 70px; right: 18px; background: rgba(0,0,0,0.97); color: #00ffff; border-radius: 18px; box-shadow: 0 0 32px #00ffff99; padding: 28px 32px; z-index: 200; min-width: 260px; max-width: 90vw;">
       <h3 style="margin-top:0; color:#00ffff; font-size:1.2em;">Créditos</h3>
       <p style="margin: 10px 0 0 0; font-size:1em; color:#fff;">Juego: <b>BenWar</b></p>
-      <p style="margin: 6px 0 0 0; font-size:1em; color:#fff;">Desarrollado por: <b>NextAppCode</b></p>
-      <p style="margin: 6px 0 0 0; font-size:0.95em; color:#00ffffbb;">Mejorado con IA</p>
+      <p style="margin: 6px 0 0 0; font-size:1em; color:#fff;">Dev.<b> Jose Luis Mamani C.</b></p>
+      <p style="margin: 6px 0 0 0; font-size:0.95em; color:#00ffffbb;">Enhanced with AI</p>
       <button id="close-credits-btn" style="margin-top:18px; background: linear-gradient(45deg, #00ffff, #ff00ff); color: white; border: none; border-radius: 30px; padding: 8px 18px; font-size: 1em; font-weight: 600; cursor: pointer; box-shadow: 0 0 12px #00ffff55;">Cerrar</button>
     </div>
     <script type="module" src="/src/main.js"></script>
