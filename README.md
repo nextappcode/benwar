@@ -2,37 +2,41 @@
 
 ¡Bienvenido a **BenWar**! Un juego de mecanografía tipo arcade donde debes destruir naves enemigas escribiendo las palabras que aparecen en pantalla antes de que lleguen a tu nave.
 
-## 🎮 ¿Cómo jugar?
-- Las naves enemigas bajan desde la parte superior.
-- Escribe la palabra que aparece sobre cada nave para destruirla.
-- No dejes que las naves lleguen a tu nave (pierdes vidas).
-- Sube de nivel y aumenta la velocidad.
-- ¡Compite por la mejor puntuación!
+## 🎮 ¿Cómo se juega?
+
+- Las naves bajan. Tú escribes. Ellas explotan.
+- Si una nave toca tu base, pierdes una vida.
+- Cada 10 niveles, la galaxia te recompensa con una vida extra. Un mensaje brillante y animado te lo recordará, ¡no lo dejes pasar!
+- ¿Atrapado? Pulsa **Enter** y detona una bomba: elimina 4 palabras de un plumazo, pero a cambio de una vida. El universo tiembla, la pantalla vibra y un mensaje épico aparece… ahora más visible y con un desvanecimiento digno de héroes.
+- ¿Tildes? Tú decides: activa o desactiva la exigencia de acentos con un botón. Y no te preocupes, el input siempre estará listo para tu próxima palabra, sin perder el ritmo.
+- El avión, tu fiel aliado, girará solo cuando elijas un nuevo objetivo. Si no hay enemigos, mantendrá la última dirección, como un guardián atento.
 
 ## 🕹️ Controles y ayudas especiales
 - **Teclado:**
   - Escribe palabras para disparar y destruir enemigos.
   - **Bomba (tecla Enter):** Elimina hasta 4 palabras más cercanas al avión en cadena, a cambio de 1 vida. Úsala como ayuda estratégica si te ves amenazado.
+  - **Botón de tildes:** Puedes habilitar o deshabilitar la exigencia de tildes. Al cambiar esta opción, el input de palabras recupera el focus automáticamente para no interrumpir la jugabilidad.
 - **Móvil:**
   - El juego es totalmente responsivo y los anuncios visuales se adaptan a la pantalla.
 
 ## ✨ Funcionalidades destacadas
 - **Dificultad progresiva:** Más palabras, más largas y más rápidas a medida que subes de nivel.
-- **Bomba especial:** Elimina varias palabras a la vez con un potente efecto visual, temblor de pantalla y sonido de explosión.
+- **Bomba especial:** Elimina varias palabras a la vez con un potente efecto visual, temblor de pantalla y sonido de explosión. El mensaje de bomba es grande, claro y animado.
 - **Estela realista:** Los disparos dejan un rastro animado tipo meteorito.
-- **Bonus de vida:** Cada 10 niveles superados, ganas +1 vida y un anuncio visual te lo notifica.
-- **Anuncios visuales:** Mensajes grandes y claros para nivel, bonus y uso de bomba, adaptados a escritorio y móviles.
+- **Bonus de vida:** Cada 10 niveles superados, ganas +1 vida y un anuncio visual te lo notifica con animación y desvanecimiento suave.
+- **Mensajes visuales mejorados:** Los mensajes de bonus y bomba son legibles, y permanecen en pantalla y se desvanecen suavemente para una mejor experiencia.
+- **Avión inteligente:** El avión mantiene su dirección tras eliminar palabras y solo gira cuando apuntas a una nueva palabra.
 - **Efectos responsivos:** Todos los mensajes y elementos clave se ven bien en cualquier dispositivo.
 
 ## 🖥️ Demo
-Puedes desplegar este juego fácilmente en [Render](https://render.com/) o cualquier servicio de hosting estático.
+Puedes probar el juego facilmente en [Render](https://benwar.onrender.com/).
 
 ## 🚀 Instalación y uso local
 
 1. **Clona el repositorio:**
    ```bash
-   git clone <url-del-repo>
-   cd project-bolt-vitejs-vite-pzjfqtep
+   git clone https://github.com/nextappcode/benwar.git
+   cd benwar
    ```
 2. **Instala las dependencias:**
    ```bash
@@ -84,9 +88,12 @@ Este proyecto está configurado para funcionar en Render, Railway, Vercel, Netli
 - `words/` — Listas de palabras en español e inglés
 
 ## 👨‍💻 Créditos
-- Juego desarrollado por **NextAppCode**
+- Juego desarrollado por **nextappcode**
 - Mejorado con IA
-- Imágenes y sonidos: recursos propios y libres de derechos
+- Imágenes y sonidos: Libres de derechos
+
+## 📚 Permiso de uso educativo
+Puedes usar BenWar en clases, talleres, cursos o cualquier contexto educativo. Solo te pedimos que menciones al desarrollador (**nextappcode**) o incluyas un enlace a este repositorio como reconocimiento.
 
 ## 📝 Notas técnicas
 - El juego está hecho con [Vite](https://vitejs.dev/) (vanilla JS).
