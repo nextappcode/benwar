@@ -1064,17 +1064,22 @@ export class Game {
     this.isPaused = !this.isPaused;
     const pauseMenu = document.getElementById('pause-menu');
     const infoBtn = document.getElementById('info-btn');
+    const wordInput = document.getElementById('word-input');
     if (this.isPaused) {
       this.stopGameLoops();
       pauseMenu.classList.remove('hidden');
       // Ocultar botón info en pausa
       if (infoBtn) infoBtn.style.display = 'none';
+      // Deshabilitar input al pausar
+      if (wordInput) wordInput.disabled = true;
     } else {
       pauseMenu.classList.add('hidden');
       this.resumeGameLoops();
-      // Foco automático al input de palabras al continuar
-      const wordInput = document.getElementById('word-input');
-      if (wordInput) wordInput.focus();
+      // Habilitar input al reanudar
+      if (wordInput) {
+        wordInput.disabled = false;
+        wordInput.focus();
+      }
     }
   }
   
@@ -1082,6 +1087,12 @@ export class Game {
     this.isPaused = false;
     const pauseMenu = document.getElementById('pause-menu');
     pauseMenu.classList.add('hidden');
+    // Habilitar input al cerrar menú pausa (por si se usa este método)
+    const wordInput = document.getElementById('word-input');
+    if (wordInput) {
+      wordInput.disabled = false;
+      wordInput.focus();
+    }
   }
   
   stopGameLoops() {
