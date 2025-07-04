@@ -94,5 +94,17 @@
       <button id="close-credits-btn" style="margin-top:18px; background: linear-gradient(45deg, #00ffff, #ff00ff); color: white; border: none; border-radius: 30px; padding: 8px 18px; font-size: 1em; font-weight: 600; cursor: pointer; box-shadow: 0 0 12px #00ffff55;">Cerrar</button>
     </div>
     <script type="module" src="/src/main.js"></script>
+    <script>
+      // Cerrar créditos al hacer clic fuera del recuadro
+      document.addEventListener('mousedown', function(event) {
+        const modal = document.getElementById('credits-modal');
+        if (modal && modal.style.display !== 'none') {
+          // Si el clic NO es dentro del modal ni en el botón de abrir
+          if (!modal.contains(event.target) && event.target.id !== 'info-btn') {
+            modal.style.display = 'none';
+          }
+        }
+      });
+    </script>
   </body>
 </html>
